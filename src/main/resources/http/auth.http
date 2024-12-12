@@ -1,0 +1,41 @@
+### Register new account
+POST http://localhost:8090/api/auth/registration
+Content-Type: application/json
+Accept-Language: uz
+
+{
+  "name": "Doston",
+  "surname": "Sulaymon",
+  "email": "dostonqosimiy20@gmail.com",
+  "password": "1"
+}
+
+### Registration confirmation
+POST http://localhost:8090/api/auth/registration/confirm
+Content-Type: application/json
+Accept-Language: uz
+
+{
+  "email": "dostonqosimiy20@gmail.com",
+  "code": 191165
+}
+
+### Login
+POST http://localhost:9090/api/auth/profile/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "1"
+}
+
+
+
+### Refresh token
+POST http://localhost:8090/api/auth/refresh
+Content-Type: application/json
+Accept-Language: ru
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwibG9naW4iOiJkb3N0b25xb3NpbWl5MTlAZ21haWwuY29tIiwic3ViIjoiZG9zdG9ucW9zaW1peTE5QGdtYWlsLmNvbSIsImlhdCI6MTczMjYzMzQ5NSwiZXhwIjoxNzM1MjI1NDk1fQ.6JyHIk13fzIUWNzm6skRJuzPRGmQPmoep3mrP5jXiIc"
+}

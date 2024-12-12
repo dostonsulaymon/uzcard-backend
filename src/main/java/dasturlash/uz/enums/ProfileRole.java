@@ -1,6 +1,6 @@
 package dasturlash.uz.enums;
 
-public enum Role {
+public enum ProfileRole {
     ROLE_ADMIN,
     ROLE_MODERATOR
 }

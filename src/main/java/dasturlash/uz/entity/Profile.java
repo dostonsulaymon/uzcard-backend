@@ -1,6 +1,6 @@
 package dasturlash.uz.entity;
 
-import dasturlash.uz.enums.Role;
+import dasturlash.uz.enums.ProfileRole;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,7 +19,7 @@ public class Profile {
     private String surname;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private ProfileRole role;
 
     private String username;
 
@@ -28,4 +28,6 @@ public class Profile {
     private Boolean status;
 
     private LocalDateTime createdDate;
+
+    private Boolean visible;
 }
