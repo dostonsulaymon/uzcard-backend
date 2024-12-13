@@ -21,4 +21,11 @@ public class AuthController {
     ) {
         return ResponseEntity.ok(authService.login(loginDTO.getUsername(), loginDTO.getPassword()));
     }
+
+    @PostMapping("/company/login")
+    public ResponseEntity<JwtResponseDTO> loginForCompany(
+            @RequestBody @Valid LoginDTO loginDTO
+    ) {
+        return ResponseEntity.ok(authService.login(loginDTO.getUsername(), loginDTO.getPassword()));
+    }
 }
