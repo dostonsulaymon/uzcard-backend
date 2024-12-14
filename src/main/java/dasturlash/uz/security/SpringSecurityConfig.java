@@ -54,7 +54,12 @@ public class SpringSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(request -> {
-            request.requestMatchers("/api/auth/**").permitAll().anyRequest().authenticated();
+            request.requestMatchers("/api/auth/**").permitAll();
+
+            // Need role of Admin
+            request.requestMatchers("/api/company", "/api/company/**").hasRole("ADMIN");
+
+            request.anyRequest().authenticated();
 
         }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

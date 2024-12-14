@@ -26,7 +26,7 @@ public class Company {
 
     private LocalDateTime createdDate;
 
-    private Boolean status;
+    private Boolean visible;
 
     private String code;
 
