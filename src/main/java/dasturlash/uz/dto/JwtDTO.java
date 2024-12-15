@@ -9,7 +9,7 @@ import lombok.Setter;
 public class JwtDTO {
     private String login;
     private String role;
-
+private String hello;
     public JwtDTO() {
     }
 
