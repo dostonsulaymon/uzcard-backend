@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
         uniqueConstraints = @UniqueConstraint(columnNames = {"passport_seria", "passport_number"})
 )
 public class Client {
-
     @Id
+    @Column(length = 36)
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
@@ -34,10 +34,9 @@ public class Client {
     @Column(name = "passport_number", nullable = false, length = 10)
     private String passportNum;
 
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
     @Column(nullable = false)
     private Boolean status;
-
 }

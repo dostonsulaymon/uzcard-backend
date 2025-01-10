@@ -10,47 +10,43 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
 @Entity
 @Table(name = "cards")
 public class Card {
-
     @Id
-    @GeneratedValue(generator = "uuid2")
+    @Column(length = 36)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "number", unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String number;
 
     @Column(name = "expired_date", nullable = false)
     private LocalDate expiredDate;
 
-    @Column(name = "phone")
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(length = 50, nullable = false)
     private CardStatus status;
 
-    @Column(name = "created_date", nullable = false, updatable = false)
+    @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;
 
-    @Column(name = "balance", nullable = false)
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
 
-    @Column(name = "client_id")
+    @Column(name = "client_id", length = 36)
     private String clientId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", insertable = false, updatable = false)
     private Client client;
 
-    @Column(name = "company_id")
+    @Column(name = "company_id", length = 36)
     private String companyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
-
-
 }

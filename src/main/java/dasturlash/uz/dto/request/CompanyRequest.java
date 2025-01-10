@@ -9,27 +9,27 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
-public class CompanyRequest {
 
-    @NotBlank(message = "Name must be provided")
-    private String name;
+public record CompanyRequest(
 
-    @NotBlank(message = "Address must be provided")
-    private String address;
+        @NotBlank(message = "Name must be provided")
+        String name,
 
-    @NotBlank(message = "Contact must be provided")
-    private String contact;
+        @NotBlank(message = "Address must be provided")
+        String address,
 
-    private CompanyRole role;
+        @NotBlank(message = "Contact must be provided")
+        String contact,
 
-    private String code;
+        CompanyRole role,
 
-    @NotBlank(message = "Username must be provided")
-    private String username;
+        String code,
 
-    @NotBlank(message = "Password must be provided")
-    private String password;
+        @NotBlank(message = "Username must be provided")
+        String username,
 
+        @NotBlank(message = "Password must be provided")
+        String password
 
+        ) {
 }

@@ -24,33 +24,23 @@ public class CompanyService {
 
     public String createCompany(CompanyRequest request) {
 
-        if (request.getRole() == null) {
-            throw new AppBadRequestException("Role is required to create Company");
-        }
 
-        if (existByUsername(request.getUsername())) {
-            throw new CompanyExistsException("Username must be unique. Company with username " + request.getUsername() + " exists");
-        }
+        validateCompany(request);
 
-        if (request.getRole().equals(CompanyRole.BANK)) {
-            if (request.getCode() == null || request.getCode().isEmpty()) {
-                throw new AppBadRequestException("Code is required to create Company with role of Bank");
-            }
-        }
 
         Company newCompany = new Company();
-        newCompany.setName(request.getName());
-        newCompany.setAddress(request.getAddress());
-        newCompany.setContact(request.getContact());
-        newCompany.setRole(request.getRole());
-        newCompany.setUsername(request.getUsername());
-        newCompany.setPassword(passwordEncoder.encode(request.getPassword()));
+        newCompany.setName(request.name());
+        newCompany.setAddress(request.address());
+        newCompany.setContact(request.contact());
+        newCompany.setRole(request.role());
+        newCompany.setUsername(request.username());
+        newCompany.setPassword(passwordEncoder.encode(request.password()));
         newCompany.setCreatedDate(LocalDateTime.now());
         newCompany.setVisible(Boolean.TRUE);
 
         // Set code only if it is provided (typically when role is BANK)
-        if (request.getCode() != null) {
-            newCompany.setCode(request.getCode());
+        if (request.code() != null) {
+            newCompany.setCode(request.code());
         }
 
         companyRepository.save(newCompany);
@@ -66,6 +56,23 @@ public class CompanyService {
         }
 
         return companyRepository.existsByUsername(username);
+
+    }
+
+    private void validateCompany(CompanyRequest request){
+        if (request.role() == null) {
+            throw new AppBadRequestException("Role is required to create Company");
+        }
+
+        if (existByUsername(request.username())) {
+            throw new CompanyExistsException("Username must be unique. Company with username " + request.username() + " exists");
+        }
+
+        if (request.role().equals(CompanyRole.BANK)) {
+            if (request.code() == null || request.code().isEmpty()) {
+                throw new AppBadRequestException("Code is required to create Company with role of Bank");
+            }
+        }
 
     }
 }

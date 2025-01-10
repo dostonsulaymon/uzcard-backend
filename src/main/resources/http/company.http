@@ -1,12 +1,13 @@
 ### Create company
 POST http://localhost:9090/api/company
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNDE3NzIwOCwiZXhwIjoxNzM0NzgyMDA4fQ.nO3zZo0WMJAL7SZLPwNnD8s27Ufk3ugO0VksCXqSfZY
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNTEzOTMwNCwiZXhwIjoxNzM1NzQ0MTA0fQ.ioZy642U_DOGl8rEkVsBqE4u9tYOIUm-qBDmIYcrOSM
 
 {
+  "name": "Hello",
   "address": "789 Invalid Lane, TX",
   "contact": "+123098765",
-  "role": "BANK",
+  "role": "PAYMENT",
   "username": "invalidbank456",
   "password": "weakPassword789"
 }

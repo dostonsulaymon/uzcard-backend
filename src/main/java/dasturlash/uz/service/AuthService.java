@@ -22,6 +22,7 @@ public class AuthService {
     private final ProfileRepository profileRepository;
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtUtil jwtUtil;
 
 
     public JwtResponseDTO login(String username, String password) {
@@ -39,14 +40,13 @@ public class AuthService {
             if (authentication.isAuthenticated()) {
                 CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-                JwtResponseDTO response = new JwtResponseDTO();
-                response.setUsername(username);
-                response.setToken(JwtUtil.encode(username, userDetails.getRole().toString()));
-                response.setRefreshToken(JwtUtil.refreshToken(username, userDetails.getRole().toString()));
-                response.setRoles(List.of(userDetails.getRole().toString()));
-
-
-                return response;
+                return new JwtResponseDTO(
+                        jwtUtil.encode(username, userDetails.getRole().toString()),
+                        "Bearer",
+                        jwtUtil.refreshToken(username, userDetails.getRole().toString()),
+                        username,
+                        List.of(userDetails.getRole().toString())
+                );
             }
             throw new UnauthorizedException("Login or password is wrong");
         } catch (BadCredentialsException e) {

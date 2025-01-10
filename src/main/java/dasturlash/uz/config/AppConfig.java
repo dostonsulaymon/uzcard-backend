@@ -19,14 +19,6 @@ public class AppConfig {
     @Value("${spring.datasource.password}")
     private String dataSourcePassword;
 
-    @Bean
-    public ResourceBundleMessageSource resourceBundleMessageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasenames("messages/message");
-        messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setDefaultLocale(new Locale("uz"));
-        return messageSource;
-    }
 
     @Bean
     public DataSource getDataSource() {

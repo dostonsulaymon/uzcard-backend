@@ -1,7 +1,7 @@
 package dasturlash.uz.security;
 
-import dasturlash.uz.dto.JwtDTO;
 import dasturlash.uz.util.JwtUtil;
+import dasturlash.uz.dto.JwtDTO;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,6 +24,8 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -38,9 +40,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String token = header.substring(7).trim();
-            JwtDTO dto = JwtUtil.decode(token);
+            JwtDTO dto = jwtUtil.decode(token);
 
-            String login = dto.getLogin();
+            String login = dto.login();
             UserDetails userDetails = userDetailsService.loadUserByUsername(login);
 
             UsernamePasswordAuthenticationToken authentication =
