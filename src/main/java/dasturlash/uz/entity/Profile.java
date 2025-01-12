@@ -1,6 +1,6 @@
 package dasturlash.uz.entity;
 
-import dasturlash.uz.enums.ProfileRole;
+import dasturlash.uz.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class Profile {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
-    private ProfileRole role;
+    private Role role;
 
     private String username;
 

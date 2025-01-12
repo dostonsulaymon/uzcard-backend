@@ -24,14 +24,16 @@ public class JwtUtil {
     @Value("${jwt.secret-key}")
     private String secretKey;
 
-    public String encode(String login, String role) {
-        return getString(login, role, tokenLiveTime);
+    public String encode(String login, String role, String userType) {
+        return getString(login, role, userType, tokenLiveTime);
     }
 
-    private String getString(String login, String role, long tokenLiveTime) {
+    private String getString(String login, String role, String userType, long tokenLiveTime) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("role", role);
         extraClaims.put("login", login);
+        extraClaims.put("userType", userType);
+
 
         return Jwts
                 .builder()
@@ -43,8 +45,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String refreshToken(String login, String role) {
-        return getString(login, role, refreshTokenLiveTime);
+    public String refreshToken(String login, String role, String userType) {
+        return getString(login, role, userType, refreshTokenLiveTime);
     }
 
     public TokenValidationResult validateToken(String token) {
@@ -83,8 +85,9 @@ public class JwtUtil {
                 .getBody();
         String login = (String) claims.get("login");
         String role = (String) claims.get("role");
+        String userType = (String) claims.get("userType");
 
-        return new JwtDTO(login, role);
+        return new JwtDTO(login, role, userType);
     }
 
     private Key getSignInKey() {

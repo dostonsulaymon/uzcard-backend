@@ -2,17 +2,14 @@ package dasturlash.uz.service;
 
 import dasturlash.uz.dto.request.CompanyRequest;
 import dasturlash.uz.entity.Company;
-import dasturlash.uz.enums.CompanyRole;
+import dasturlash.uz.enums.Role;
 import dasturlash.uz.exceptions.AppBadRequestException;
 import dasturlash.uz.exceptions.CompanyExistsException;
 import dasturlash.uz.repository.CompanyRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.time.LocalDateTime;
 
 @Service
@@ -68,7 +65,7 @@ public class CompanyService {
             throw new CompanyExistsException("Username must be unique. Company with username " + request.username() + " exists");
         }
 
-        if (request.role().equals(CompanyRole.BANK)) {
+        if (request.role().equals(Role.ROLE_BANK)) {
             if (request.code() == null || request.code().isEmpty()) {
                 throw new AppBadRequestException("Code is required to create Company with role of Bank");
             }

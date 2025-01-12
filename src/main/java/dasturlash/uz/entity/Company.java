@@ -1,6 +1,6 @@
 package dasturlash.uz.entity;
 
-import dasturlash.uz.enums.CompanyRole;
+import dasturlash.uz.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,7 +24,7 @@ public class Company {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
-    private CompanyRole role;
+    private Role role;
 
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;

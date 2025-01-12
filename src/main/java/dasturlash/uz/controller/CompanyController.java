@@ -20,7 +20,7 @@ public class CompanyController {
 
     private final CompanyService companyService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<String> createCompany(@RequestBody @Valid CompanyRequest request) {
         log.info("I am being called");
 

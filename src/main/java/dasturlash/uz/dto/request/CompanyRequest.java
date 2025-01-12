@@ -1,13 +1,7 @@
 package dasturlash.uz.dto.request;
 
-import dasturlash.uz.enums.CompanyRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import dasturlash.uz.enums.Role;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-
-import java.time.LocalDateTime;
 
 
 public record CompanyRequest(
@@ -21,7 +15,7 @@ public record CompanyRequest(
         @NotBlank(message = "Contact must be provided")
         String contact,
 
-        CompanyRole role,
+        Role role,
 
         String code,
 

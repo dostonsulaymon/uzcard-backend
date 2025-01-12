@@ -1,7 +1,7 @@
 package dasturlash.uz.security;
 
-import dasturlash.uz.util.JwtUtil;
 import dasturlash.uz.dto.JwtDTO;
+import dasturlash.uz.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -23,8 +23,10 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
+
 
 
     @Override
@@ -51,11 +53,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             filterChain.doFilter(request, response);
-
         } catch (JwtException | UsernameNotFoundException e) {
+            System.out.println("Something happened");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
             return;
         }
-
     }
 }
