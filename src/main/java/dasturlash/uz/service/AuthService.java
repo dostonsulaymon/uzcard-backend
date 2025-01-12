@@ -1,16 +1,17 @@
 package dasturlash.uz.service;
 
 import dasturlash.uz.dto.JwtResponseDTO;
+import dasturlash.uz.enums.Role;
+import dasturlash.uz.enums.UserType;
 import dasturlash.uz.exceptions.UnauthorizedException;
-import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.security.CustomUserDetails;
+import dasturlash.uz.security.CustomUserDetailsService;
 import dasturlash.uz.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,19 +19,19 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-
-    private final ProfileRepository profileRepository;
     private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
 
+    public JwtResponseDTO loginProfile(String username, String password) {
+        return authenticate(username, password, UserType.PROFILE);
+    }
 
-    public JwtResponseDTO login(String username, String password) {
+    public JwtResponseDTO loginCompany(String username, String password) {
+        return authenticate(username, password, UserType.COMPANY);
+    }
 
-
-        profileRepository.findByUsernameAndVisibleTrue(username)
-                .orElseThrow(() -> new UnauthorizedException("Login or password is wrong"));
-
-
+    private JwtResponseDTO authenticate(String username, String password, UserType userType) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password)
@@ -39,19 +40,24 @@ public class AuthService {
             if (authentication.isAuthenticated()) {
                 CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-                JwtResponseDTO response = new JwtResponseDTO();
-                response.setUsername(username);
-                response.setToken(JwtUtil.encode(username, userDetails.getRole().toString()));
-                response.setRefreshToken(JwtUtil.refreshToken(username, userDetails.getRole().toString()));
-                response.setRoles(List.of(userDetails.getRole().toString()));
+                // Verify user type matches the login endpoint
+                if (userDetails.getUserType() != userType) {
+                    throw new UnauthorizedException("Invalid login endpoint for user type");
+                }
 
+                Role role = userDetails.getRole();
 
-                return response;
+                return new JwtResponseDTO(
+                        jwtUtil.encode(username, role.name(), userType.name()),
+                        "Bearer",
+                        jwtUtil.refreshToken(username, role.name(), userType.name()),
+                        username,
+                        List.of(role.name())
+                );
             }
             throw new UnauthorizedException("Login or password is wrong");
         } catch (BadCredentialsException e) {
             throw new UnauthorizedException("Login or password is wrong");
-
         }
     }
 }

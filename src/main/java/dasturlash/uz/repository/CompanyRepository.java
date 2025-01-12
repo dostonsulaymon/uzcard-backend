@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ProfileRepository extends JpaRepository<Profile, String> {
-    Optional<Profile> findByUsername(String username);
+public interface CompanyRepository extends JpaRepository<Company, String> {
+    boolean existsByUsername(String username);
 
-    Optional<Profile> findByUsernameAndVisibleTrue(String username);
+    Optional<Company> findByUsernameAndVisibleTrue(String username);
+
 }

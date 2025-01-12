@@ -5,12 +5,17 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class JwtResponseDTO {
-    private String token;
-    private String type = "Bearer";
-    private String refreshToken;
-    private String username;
-    private List<String> roles;
+public record JwtResponseDTO(
+        String token,
+        String type,
+        String refreshToken,
+        String username,
+        List<String> roles
+) {
+    public JwtResponseDTO {
+        if (type == null) {
+            type = "Bearer";
+        }
+    }
 }

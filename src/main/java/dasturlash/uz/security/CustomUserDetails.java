@@ -1,39 +1,25 @@
 package dasturlash.uz.security;
 
-import dasturlash.uz.entity.Profile;
-import dasturlash.uz.enums.ProfileRole;
+import dasturlash.uz.enums.Role;
+import dasturlash.uz.enums.UserType;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
+@Data
+@Builder
 public class CustomUserDetails implements UserDetails {
-
-    private final String id;
-    private final String name;
-    private final String surname;
-    private final String username;
-    private final String password;
-    private final Boolean status;
-    private final ProfileRole role;
-
-    public CustomUserDetails(Profile profile) {
-        this.id = profile.getId();
-        this.name = profile.getName();
-        this.surname = profile.getSurname();
-        this.password = profile.getPassword();
-        this.status = profile.getStatus();
-        this.role = profile.getRole();
-        this.username = profile.getUsername();
-    }
-
+    private String id;
+    private String username;
+    private String password;
+    private UserType userType; // COMPANY or PROFILE
+    private Role role; // ADMIN, BANK, PAYMENT, MODERATOR
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -45,32 +31,17 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return status;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isEnabled() {
+    public boolean isCredentialsNonExpired() {
         return true;
     }
 }

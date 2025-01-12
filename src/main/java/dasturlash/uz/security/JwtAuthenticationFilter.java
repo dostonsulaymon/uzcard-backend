@@ -8,8 +8,12 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -19,7 +23,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+
     private final UserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
+
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -34,12 +42,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String token = header.substring(7).trim();
-            JwtDTO dto = JwtUtil.decode(token);
+            JwtDTO dto = jwtUtil.decode(token);
 
-        }catch (JwtException | UsernameNotFoundException e) {
+            String login = dto.login();
+            UserDetails userDetails = userDetailsService.loadUserByUsername(login);
+
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            filterChain.doFilter(request, response);
+        } catch (JwtException | UsernameNotFoundException e) {
+            System.out.println("Something happened");
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token");
             return;
         }
-
     }
 }

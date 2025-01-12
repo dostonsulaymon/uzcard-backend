@@ -1,6 +1,6 @@
 package dasturlash.uz.entity;
 
-import dasturlash.uz.enums.ProfileRole;
+import dasturlash.uz.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "profiles")
 public class Profile {
     @Id
+    @Column(length = 36)
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
@@ -19,7 +20,8 @@ public class Profile {
     private String surname;
 
     @Enumerated(EnumType.STRING)
-    private ProfileRole role;
+    @Column(length = 50)
+    private Role role;
 
     private String username;
 
@@ -27,6 +29,7 @@ public class Profile {
 
     private Boolean status;
 
+    @Column(name = "created_date")
     private LocalDateTime createdDate;
 
     private Boolean visible;

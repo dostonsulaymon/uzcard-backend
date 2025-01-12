@@ -1,20 +1,9 @@
 package dasturlash.uz.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+public record JwtDTO(
+        String login,
+        String role,
+        String userType
+) {
 
-@Getter
-@Setter
-public class JwtDTO {
-    private String login;
-    private String role;
-
-    public JwtDTO() {
-    }
-
-    public JwtDTO(String login, String role) {
-        this.login = login;
-        this.role = role;
-    }
 }

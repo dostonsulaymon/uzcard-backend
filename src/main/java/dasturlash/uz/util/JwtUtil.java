@@ -4,26 +4,35 @@ import dasturlash.uz.dto.JwtDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class JwtUtil {
 
-    private static final long tokenLiveTime = 1000L * 60 * 60 * 24 * 7; // 1 week (in milliseconds)
-    private static final long refreshTokenLiveTime = 1000L * 60 * 60 * 24 * 30; // 1 month (in milliseconds)
-    private static final String secretKey = "veryLongSecretmazgillattayevlasharaaxmojonjinnijonsurbetbekkiydirhonuxlatdibekloxovdangasabekochkozjonduxovmashaynikmaydagapchishularnioqiganbolsangizgapyoqaniqsizmazgi";
+    @Value("${jwt.token.live-time}")
+    private long tokenLiveTime;
 
-    public static String encode(String login, String role) {
-        return getString(login, role, tokenLiveTime);
+    @Value("${jwt.refresh-token.live-time}")
+    private long refreshTokenLiveTime;
+
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+
+    public String encode(String login, String role, String userType) {
+        return getString(login, role, userType, tokenLiveTime);
     }
 
-    private static String getString(String login, String role, long tokenLiveTime) {
+    private String getString(String login, String role, String userType, long tokenLiveTime) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("role", role);
         extraClaims.put("login", login);
+        extraClaims.put("userType", userType);
 
 
         return Jwts
@@ -36,11 +45,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static String refreshToken(String login, String role) {
-        return getString(login, role, refreshTokenLiveTime);
+    public String refreshToken(String login, String role, String userType) {
+        return getString(login, role, userType, refreshTokenLiveTime);
     }
 
-    public static TokenValidationResult validateToken(String token) {
+    public TokenValidationResult validateToken(String token) {
         try {
             Claims claims = Jwts
                     .parserBuilder()
@@ -67,10 +76,7 @@ public class JwtUtil {
         }
     }
 
-    public record TokenValidationResult(boolean valid, String message) {
-    }
-
-    public static JwtDTO decode(String token) {
+    public JwtDTO decode(String token) {
         Claims claims = Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -79,13 +85,18 @@ public class JwtUtil {
                 .getBody();
         String login = (String) claims.get("login");
         String role = (String) claims.get("role");
+        String userType = (String) claims.get("userType");
 
-        return new JwtDTO(login, role);
+        return new JwtDTO(login, role, userType);
     }
 
-    private static Key getSignInKey() {
+    private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
+    public record TokenValidationResult(boolean valid, String message) {
+    }
+
 
 }

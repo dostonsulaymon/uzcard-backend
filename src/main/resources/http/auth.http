@@ -20,13 +20,22 @@ Accept-Language: uz
   "code": 191165
 }
 
-### Login
+### Login as profile
 POST http://localhost:9090/api/auth/profile/login
 Content-Type: application/json
 
 {
-  "username": "admin",
+  "login": "admin",
   "password": "1"
+}
+
+### Login as company
+POST http://localhost:9090/api/auth/company/login
+Content-Type: application/json
+
+{
+  "login": "humo",
+  "password": "22"
 }
 
 

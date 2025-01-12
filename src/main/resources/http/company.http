@@ -1,0 +1,16 @@
+### Create company
+POST http://localhost:9090/api/company/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+{
+  "name": "Humo",
+  "address": "789 Invalid Lane, TX",
+  "contact": "+123098765",
+  "role": "Ro",
+  "username": "humo",
+  "code": "22",
+  "password": "22"
+}
+
+
