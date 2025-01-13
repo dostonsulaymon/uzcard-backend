@@ -1,4 +1,4 @@
-package dasturlash.uz.dto.request;
+package dasturlash.uz.dto.company.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

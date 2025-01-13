@@ -1,9 +1,8 @@
-package dasturlash.uz.dto.request;
+package dasturlash.uz.dto.company.request;
 
 import dasturlash.uz.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 
 
 public record CompanyRequest(

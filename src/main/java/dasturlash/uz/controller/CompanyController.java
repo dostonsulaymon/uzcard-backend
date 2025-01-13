@@ -1,17 +1,16 @@
 package dasturlash.uz.controller;
 
-import dasturlash.uz.dto.request.CompanyRequest;
-import dasturlash.uz.dto.request.CompanyResponse;
-import dasturlash.uz.dto.request.CompanyUpdateRequest;
+import dasturlash.uz.dto.company.request.CompanyRequest;
+import dasturlash.uz.dto.company.response.CompanyResponse;
+import dasturlash.uz.dto.company.request.CompanyUpdateRequest;
+import dasturlash.uz.dto.request.ChangeUsernameRequest;
 import dasturlash.uz.dto.request.PasswordUpdateRequest;
 import dasturlash.uz.service.CompanyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,7 +46,16 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.updatePassword(id, request));
     }
 
-     
+    @PutMapping("/change-username/{id}")
+    public ResponseEntity<String> changeUsername(
+            @PathVariable String id,
+            @RequestBody @Valid ChangeUsernameRequest request) {
+        log.info("Changing username for company with id: {}", id);
+        return ResponseEntity.ok(companyService.changeUsername(id, request));
+    }
+
+
+
     @GetMapping("/list")
     public ResponseEntity<Page<CompanyResponse>> getCompanies(
             @RequestParam(defaultValue = "0") int page,

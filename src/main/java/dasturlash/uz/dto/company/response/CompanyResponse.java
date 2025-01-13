@@ -1,4 +1,4 @@
-package dasturlash.uz.dto.request;
+package dasturlash.uz.dto.company.response;
 
 import dasturlash.uz.enums.Role;
 

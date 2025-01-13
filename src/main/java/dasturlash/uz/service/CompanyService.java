@@ -1,8 +1,9 @@
 package dasturlash.uz.service;
 
-import dasturlash.uz.dto.request.CompanyRequest;
-import dasturlash.uz.dto.request.CompanyResponse;
-import dasturlash.uz.dto.request.CompanyUpdateRequest;
+import dasturlash.uz.dto.company.request.CompanyRequest;
+import dasturlash.uz.dto.company.response.CompanyResponse;
+import dasturlash.uz.dto.company.request.CompanyUpdateRequest;
+import dasturlash.uz.dto.request.ChangeUsernameRequest;
 import dasturlash.uz.dto.request.PasswordUpdateRequest;
 import dasturlash.uz.entity.Company;
 import dasturlash.uz.enums.Role;
@@ -74,6 +75,8 @@ public class CompanyService {
             company.setCode(request.code());
         }
 
+        company.setUpdatedDate(LocalDateTime.now());
+
         Company updatedCompany = companyRepository.save(company);
         return mapToCompanyResponse(updatedCompany);
     }
@@ -88,11 +91,33 @@ public class CompanyService {
             throw new AppBadRequestException("Invalid old password");
         }
 
+
         company.setPassword(passwordEncoder.encode(request.newPassword()));
+        company.setUpdatedDate(LocalDateTime.now());
+
         companyRepository.save(company);
 
         return "Password updated successfully";
     }
+
+    @Transactional
+    public String changeUsername(String id, ChangeUsernameRequest request) {
+        Company company = getCompanyById(id);
+
+        // Check if the new username is already taken
+        if (!request.newUsername().equals(company.getUsername()) && companyRepository.existsByUsername(request.newUsername())) {
+            throw new RuntimeException("Username already exists: " + request.newUsername());
+        }
+
+        // Update the username
+        company.setUsername(request.newUsername());
+        company.setUpdatedDate(LocalDateTime.now());
+        companyRepository.save(company);
+
+        return "Username changed successfully";
+    }
+
+
 
     public Page<CompanyResponse> getCompanies(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -106,6 +131,7 @@ public class CompanyService {
         Company company = getCompanyById(id);
 
         company.setVisible(false);
+        company.setUpdatedDate(LocalDateTime.now());
         companyRepository.save(company);
 
         return "Company deleted successfully";
