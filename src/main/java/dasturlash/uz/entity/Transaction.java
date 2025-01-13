@@ -42,6 +42,9 @@ public class Transaction {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
     private TransactionStatus status;

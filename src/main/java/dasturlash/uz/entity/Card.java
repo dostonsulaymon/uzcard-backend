@@ -8,6 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -32,6 +33,9 @@ public class Card {
 
     @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;
+
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;

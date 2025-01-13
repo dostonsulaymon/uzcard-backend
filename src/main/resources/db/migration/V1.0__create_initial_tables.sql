@@ -7,6 +7,7 @@ CREATE TABLE companies
     contact      VARCHAR(255),
     role         VARCHAR(50)  NOT NULL,
     created_date TIMESTAMP    NOT NULL,
+    updated_date TIMESTAMP,
     visible      BOOLEAN,
     code         VARCHAR(255),
     username     VARCHAR(255),
@@ -25,6 +26,7 @@ CREATE TABLE clients
     passport_seria  VARCHAR(10) NOT NULL,
     passport_number VARCHAR(10) NOT NULL,
     created_date    TIMESTAMP   NOT NULL,
+    updated_date TIMESTAMP,
     status          BOOLEAN     NOT NULL,
     UNIQUE (passport_seria, passport_number)
 );
@@ -40,6 +42,7 @@ CREATE TABLE profiles
     password     VARCHAR(255),
     status       BOOLEAN,
     created_date TIMESTAMP,
+    updated_date TIMESTAMP,
     visible      BOOLEAN
 );
 
@@ -52,6 +55,7 @@ CREATE TABLE cards
     phone        VARCHAR(255),
     status       VARCHAR(50)    NOT NULL,
     created_date DATE           NOT NULL,
+    updated_date TIMESTAMP,
     balance      DECIMAL(19, 2) NOT NULL,
     client_id    VARCHAR(36),
     company_id   VARCHAR(36),
@@ -70,6 +74,7 @@ CREATE TABLE transfers
     service_amount     DECIMAL(19, 2),
     service_percentage DECIMAL(19, 2),
     created_date       TIMESTAMP,
+    updated_date TIMESTAMP,
     status             VARCHAR(50),
     company_id         VARCHAR(36),
     FOREIGN KEY (from_card_id) REFERENCES cards (id),
@@ -86,6 +91,7 @@ CREATE TABLE transactions
     amount           DECIMAL(19, 2) NOT NULL,
     transaction_type VARCHAR(50)    NOT NULL,
     created_date     TIMESTAMP      NOT NULL,
+    updated_date TIMESTAMP,
     status           VARCHAR(50)    NOT NULL,
     FOREIGN KEY (card_id) REFERENCES cards (id),
     FOREIGN KEY (transfer_id) REFERENCES transfers (id)

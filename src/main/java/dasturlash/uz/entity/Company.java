@@ -29,6 +29,9 @@ public class Company {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
     private Boolean visible;
 
     private String code;

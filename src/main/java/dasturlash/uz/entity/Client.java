@@ -37,6 +37,9 @@ public class Client {
     @Column(name = "created_date", nullable = false)
     private LocalDateTime createdDate;
 
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
     @Column(nullable = false)
     private Boolean status;
 }

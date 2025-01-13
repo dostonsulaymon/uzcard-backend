@@ -49,6 +49,9 @@ public class Transfer {
     @Column(name = "created_date")
     private LocalDateTime createdDate;
 
+    @Column(name = "updated_date")
+    private LocalDateTime updatedDate;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 50)
     private TransferStatus status;

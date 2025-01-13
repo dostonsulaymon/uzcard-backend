@@ -22,13 +22,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
   "name": "Tech Solutions Ltd",
   "address": "456 Tech Avenue, CA",
   "contact": "+1987654321",
-  "role": "ROLE_PAYMENT",
+  "role": "ROLE_COMPANY",
   "username": "techsolutions",
   "password": "tech123"
 }
 
 ### Update company basic info
-PUT http://localhost:9090/api/company/update/{{companyId}}
+PUT http://localhost:9090/api/company/update/b3ad5038-6d68-404a-b22e-76684b39f97c
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -36,7 +36,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
   "name": "Hamkorbank Updated",
   "address": "789 Valid Lane, TX",
   "contact": "+123098766",
-  "code": "2365"
+  "code": "4444"
 }
 
 ### Update company password
@@ -66,14 +66,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
   "name": "Hamkorbank",
   "address": "789 Invalid Lane, TX",
   "contact": "+123098765",
-  "code": "1111"  // This should fail if code 1111 is already used by another bank
+  "code": "1111"
 }
 
 ### Test invalid password update
-PUT http://localhost:9090/api/company/update-password/{{companyId}}
+PUT http://localhost:9090/api/company/update-password/b3ad5038-6d68-404a-b22e-76684b39f97c
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 {
-  "oldPassword": "wrongpassword",
-  "newPasswo
+  "oldPassword": "22",
+  "newPassword": "33"
+}
