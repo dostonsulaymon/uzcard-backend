@@ -1,14 +1,22 @@
 package dasturlash.uz.service;
 
 import dasturlash.uz.dto.request.CompanyRequest;
+import dasturlash.uz.dto.request.CompanyResponse;
+import dasturlash.uz.dto.request.CompanyUpdateRequest;
+import dasturlash.uz.dto.request.PasswordUpdateRequest;
 import dasturlash.uz.entity.Company;
 import dasturlash.uz.enums.Role;
 import dasturlash.uz.exceptions.AppBadRequestException;
 import dasturlash.uz.exceptions.company_related.CompanyExistsException;
+import dasturlash.uz.exceptions.company_related.CompanyNotFoundException;
 import dasturlash.uz.exceptions.company_related.CompanyStatusException;
 import dasturlash.uz.exceptions.company_related.InvalidBankCodeException;
 import dasturlash.uz.repository.CompanyRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +56,78 @@ public class CompanyService {
         return "Company create with id: " + newCompany.getId();
     }
 
-    private Boolean existByUsername(String username) {
+    @Transactional
+    public CompanyResponse updateCompany(String id, CompanyUpdateRequest request) {
+        Company company = getCompanyById(id);
+
+        // Update basic fields
+        company.setName(request.name());
+        company.setAddress(request.address());
+        company.setContact(request.contact());
+
+        // Update code if provided and role is BANK
+        if (request.code() != null && company.getRole().equals(Role.ROLE_BANK)) {
+            // Only check for code existence if the new code is different from the company's current code
+            if (!request.code().equals(company.getCode()) && companyRepository.existsByCode(request.code())) {
+                throw new CompanyExistsException("Bank with code " + request.code() + " already exists");
+            }
+            company.setCode(request.code());
+        }
+
+        Company updatedCompany = companyRepository.save(company);
+        return mapToCompanyResponse(updatedCompany);
+    }
+
+    @Transactional
+    public String updatePassword(String id, PasswordUpdateRequest request) {
+        Company company = getCompanyById(id);
+
+
+        // Verify old password
+        if (!passwordEncoder.matches(request.oldPassword(), company.getPassword())) {
+            throw new AppBadRequestException("Invalid old password");
+        }
+
+        company.setPassword(passwordEncoder.encode(request.newPassword()));
+        companyRepository.save(company);
+
+        return "Password updated successfully";
+    }
+
+    public Page<CompanyResponse> getCompanies(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Company> companies = companyRepository.findAll(pageable);
+
+        return companies.map(this::mapToCompanyResponse);
+    }
+
+    @Transactional
+    public String deleteCompany(String id) {
+        Company company = getCompanyById(id);
+
+        company.setVisible(false);
+        companyRepository.save(company);
+
+        return "Company deleted successfully";
+    }
+
+    private Company getCompanyById(String id) {
+        return companyRepository.findById(id)
+                .orElseThrow(() -> new CompanyNotFoundException("Company not found with id: " + id));
+    }
+
+    private CompanyResponse mapToCompanyResponse(Company company) {
+        return new CompanyResponse(
+                company.getId(),
+                company.getName(),
+                company.getAddress(),
+                company.getContact(),
+                company.getRole(),
+                company.getCode(),
+                company.getUsername(),
+                company.getCreatedDate()
+        );
+    }    private Boolean existByUsername(String username) {
 
         if (username == null) {
             return false;

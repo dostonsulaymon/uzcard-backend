@@ -21,7 +21,6 @@ import java.util.List;
 public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final CustomUserDetailsService customUserDetailsService;
 
     public JwtResponseDTO loginProfile(String username, String password) {
         return authenticate(username, password, UserType.PROFILE);

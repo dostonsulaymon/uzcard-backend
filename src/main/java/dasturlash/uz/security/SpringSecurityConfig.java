@@ -51,8 +51,7 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-            throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
@@ -76,7 +75,7 @@ public class SpringSecurityConfig {
         http.authorizeHttpRequests(request -> {
                     request.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                            .requestMatchers( "/api/company/**").hasRole("ADMIN")
+                            .requestMatchers("/api/company/**").hasRole("ADMIN")
                             .anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

@@ -4,13 +4,76 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 {
-  "name": "Humo",
+  "name": "Hamkorbank",
   "address": "789 Invalid Lane, TX",
   "contact": "+123098765",
-  "role": "Ro",
-  "username": "humo",
-  "code": "22",
+  "role": "ROLE_BANK",
+  "username": "hamkorbank",
+  "code": "2365",
   "password": "22"
 }
 
+### Create another company (non-bank)
+POST http://localhost:9090/api/company/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
+{
+  "name": "Tech Solutions Ltd",
+  "address": "456 Tech Avenue, CA",
+  "contact": "+1987654321",
+  "role": "ROLE_PAYMENT",
+  "username": "techsolutions",
+  "password": "tech123"
+}
+
+### Update company basic info
+PUT http://localhost:9090/api/company/update/{{companyId}}
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+{
+  "name": "Hamkorbank Updated",
+  "address": "789 Valid Lane, TX",
+  "contact": "+123098766",
+  "code": "2365"
+}
+
+### Update company password
+PUT http://localhost:9090/api/company/update-password/{{companyId}}
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+{
+  "oldPassword": "22",
+  "newPassword": "newpass123"
+}
+
+### Get companies (paginated)
+GET http://localhost:9090/api/company/list?page=0&size=10
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+### Delete company
+DELETE http://localhost:9090/api/company/delete/{{companyId}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+### Test invalid bank code update
+PUT http://localhost:9090/api/company/update/{{companyId}}
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+{
+  "name": "Hamkorbank",
+  "address": "789 Invalid Lane, TX",
+  "contact": "+123098765",
+  "code": "1111"  // This should fail if code 1111 is already used by another bank
+}
+
+### Test invalid password update
+PUT http://localhost:9090/api/company/update-password/{{companyId}}
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
+{
+  "oldPassword": "wrongpassword",
+  "newPasswo
