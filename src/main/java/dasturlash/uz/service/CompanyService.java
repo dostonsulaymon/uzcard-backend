@@ -4,7 +4,9 @@ import dasturlash.uz.dto.request.CompanyRequest;
 import dasturlash.uz.entity.Company;
 import dasturlash.uz.enums.Role;
 import dasturlash.uz.exceptions.AppBadRequestException;
-import dasturlash.uz.exceptions.CompanyExistsException;
+import dasturlash.uz.exceptions.company_related.CompanyExistsException;
+import dasturlash.uz.exceptions.company_related.CompanyStatusException;
+import dasturlash.uz.exceptions.company_related.InvalidBankCodeException;
 import dasturlash.uz.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -56,9 +58,16 @@ public class CompanyService {
 
     }
 
+    private boolean existsByCode(String code) {
+        if (code == null) {
+            return false;
+        }
+        return companyRepository.existsByCode(code);
+    }
+
     private void validateCompany(CompanyRequest request){
         if (request.role() == null) {
-            throw new AppBadRequestException("Role is required to create Company");
+            throw new CompanyStatusException("Role is required to create Company");
         }
 
         if (existByUsername(request.username())) {
@@ -67,7 +76,10 @@ public class CompanyService {
 
         if (request.role().equals(Role.ROLE_BANK)) {
             if (request.code() == null || request.code().isEmpty()) {
-                throw new AppBadRequestException("Code is required to create Company with role of Bank");
+                throw new InvalidBankCodeException("Code is required to create Company with role of Bank");
+            }
+            if (existsByCode(request.code())) {
+                throw new CompanyExistsException("Code must be unique. Bank with code " + request.code() + " already exists");
             }
         }
 

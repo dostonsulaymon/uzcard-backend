@@ -3,7 +3,7 @@ package dasturlash.uz.service;
 import dasturlash.uz.dto.JwtResponseDTO;
 import dasturlash.uz.enums.Role;
 import dasturlash.uz.enums.UserType;
-import dasturlash.uz.exceptions.UnauthorizedException;
+import dasturlash.uz.exceptions.auth_related.UnauthorizedException;
 import dasturlash.uz.security.CustomUserDetails;
 import dasturlash.uz.security.CustomUserDetailsService;
 import dasturlash.uz.util.JwtUtil;

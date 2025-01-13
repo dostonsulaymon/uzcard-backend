@@ -1,6 +1,7 @@
 package dasturlash.uz.dto.request;
 
 import dasturlash.uz.enums.Role;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 
@@ -17,6 +18,7 @@ public record CompanyRequest(
 
         Role role,
 
+        @Min(4)
         String code,
 
         @NotBlank(message = "Username must be provided")

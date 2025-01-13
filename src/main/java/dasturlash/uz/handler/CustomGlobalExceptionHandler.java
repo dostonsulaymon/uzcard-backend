@@ -1,7 +1,19 @@
 package dasturlash.uz.handler;
 
-
 import dasturlash.uz.exceptions.*;
+import dasturlash.uz.exceptions.auth_related.ForbiddenException;
+import dasturlash.uz.exceptions.auth_related.InvalidTokenException;
+import dasturlash.uz.exceptions.auth_related.TokenExpiredException;
+import dasturlash.uz.exceptions.auth_related.UnauthorizedException;
+import dasturlash.uz.exceptions.card_related.CardNotFoundException;
+import dasturlash.uz.exceptions.card_related.InsufficientBalanceException;
+import dasturlash.uz.exceptions.card_related.InvalidCardStatusException;
+import dasturlash.uz.exceptions.client_related.ClientNotFoundException;
+import dasturlash.uz.exceptions.client_related.DuplicatePassportException;
+import dasturlash.uz.exceptions.company_related.*;
+import dasturlash.uz.exceptions.transfer_related.InvalidTransferStatusException;
+import dasturlash.uz.exceptions.transfer_related.TransferNotAllowedException;
+import dasturlash.uz.exceptions.transfer_related.TransferNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +32,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,
-                                                                  HttpStatusCode status, WebRequest request) {
-
-        // write logic there
+                                                                  HttpStatusCode status,
+                                                                  WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());
         body.put("status", status.value());
@@ -33,49 +44,60 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         }
         body.put("errors", errors);
         return new ResponseEntity<>(body, headers, status);
-
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<?> exceptionHandler(UnauthorizedException e) {
+    // Authentication related exceptions - 401
+    @ExceptionHandler({
+            UnauthorizedException.class,
+            TokenExpiredException.class,
+            InvalidTokenException.class
+    })
+    public ResponseEntity<?> handleUnauthorized(RuntimeException e) {
         return ResponseEntity.status(401).body(e.getMessage());
     }
 
-    @ExceptionHandler(DataExistsException.class)
-    public ResponseEntity<?> exceptionHandler(DataExistsException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(DataNotFoundException.class)
-    public ResponseEntity<?> exceptionHandler(DataNotFoundException e) {
-        return ResponseEntity.status(404).body(e.getMessage());
-    }
-
-    @ExceptionHandler({IllegalArgumentException.class, AppBadRequestException.class})
-    public ResponseEntity<?> exceptionHandler(RuntimeException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
-    @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<?> exceptionHandler(ForbiddenException e) {
+    // Permission related exceptions - 403
+    @ExceptionHandler({
+            ForbiddenException.class,
+            TransferNotAllowedException.class,
+    })
+    public ResponseEntity<?> handleForbidden(RuntimeException e) {
         return ResponseEntity.status(403).body(e.getMessage());
     }
 
-
-    @ExceptionHandler(SomethingWentWrongException.class)
-    public ResponseEntity<?> exceptionHandler(SomethingWentWrongException e) {
-        return ResponseEntity.status(500).body(e.getMessage());
+    // Not found exceptions - 404
+    @ExceptionHandler({
+            DataNotFoundException.class,
+            CardNotFoundException.class,
+            TransferNotFoundException.class,
+            ClientNotFoundException.class,
+            CompanyNotFoundException.class
+    })
+    public ResponseEntity<?> handleNotFound(RuntimeException e) {
+        return ResponseEntity.status(404).body(e.getMessage());
     }
 
-
-    @ExceptionHandler(CompanyExistsException.class)
-    public ResponseEntity<?> exceptionHandler(CompanyExistsException e) {
+    // Bad request exceptions - 400
+    @ExceptionHandler({
+            DataExistsException.class,
+            CompanyExistsException.class,
+            IllegalArgumentException.class,
+            AppBadRequestException.class,
+            InvalidCardStatusException.class,
+            InsufficientBalanceException.class,
+            InvalidTransferStatusException.class,
+            DuplicatePassportException.class,
+            DuplicateCompanyCodeException.class,
+            CompanyStatusException.class,
+            InvalidBankCodeException.class
+    })
+    public ResponseEntity<?> handleBadRequest(RuntimeException e) {
         return ResponseEntity.status(400).body(e.getMessage());
     }
 
-
-
-
-
+    // Server error - 500
+    @ExceptionHandler(SomethingWentWrongException.class)
+    public ResponseEntity<?> handleInternalError(SomethingWentWrongException e) {
+        return ResponseEntity.status(500).body(e.getMessage());
+    }
 }
-

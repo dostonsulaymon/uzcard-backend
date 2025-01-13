@@ -11,4 +11,5 @@ public interface CompanyRepository extends JpaRepository<Company, String> {
 
     Optional<Company> findByUsernameAndVisibleTrue(String username);
 
+    boolean existsByCode(String code);
 }
