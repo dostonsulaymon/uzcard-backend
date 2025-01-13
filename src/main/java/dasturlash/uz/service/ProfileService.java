@@ -6,6 +6,9 @@ import dasturlash.uz.dto.profile.response.ProfileResponse;
 import dasturlash.uz.dto.request.ChangeUsernameRequest;
 import dasturlash.uz.dto.request.PasswordUpdateRequest;
 import dasturlash.uz.entity.Profile;
+import dasturlash.uz.exceptions.InvalidPasswordException;
+import dasturlash.uz.exceptions.profile_related.ProfileExistsException;
+import dasturlash.uz.exceptions.profile_related.ProfileNotFoundException;
 import dasturlash.uz.repository.ProfileRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +76,12 @@ public class ProfileService {
 
         // Verify old password (if applicable)
         if (!passwordEncoder.matches(request.oldPassword(), profile.getPassword())) {
-            throw new RuntimeException("Invalid old password");
+            throw new InvalidPasswordException("Invalid old password");
+        }
+
+        // Check if the new password is the same as the old password
+        if (request.oldPassword().equals(request.newPassword())) {
+            throw new InvalidPasswordException("New password cannot be the same as the old password");
         }
 
         // Update the password
@@ -84,13 +92,14 @@ public class ProfileService {
         return "Password updated successfully";
     }
 
+
     @Transactional
     public String changeUsername(String id, ChangeUsernameRequest request) {
         Profile profile = getProfileById(id);
 
         // Check if the new username is already taken
         if (profileRepository.existsByUsername(request.newUsername())) {
-            throw new RuntimeException("Username already exists: " + request.newUsername());
+            throw new ProfileExistsException("Username already exists: " + request.newUsername());
         }
 
         // Update the username
@@ -105,7 +114,7 @@ public class ProfileService {
 
     private Profile getProfileById(String id) {
         return profileRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Profile not found with id: " + id));
+                .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
     }
 
     private ProfileResponse mapToProfileResponse(Profile profile) {

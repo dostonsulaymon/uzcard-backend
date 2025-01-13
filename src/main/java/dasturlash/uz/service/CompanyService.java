@@ -7,7 +7,7 @@ import dasturlash.uz.dto.request.ChangeUsernameRequest;
 import dasturlash.uz.dto.request.PasswordUpdateRequest;
 import dasturlash.uz.entity.Company;
 import dasturlash.uz.enums.Role;
-import dasturlash.uz.exceptions.AppBadRequestException;
+import dasturlash.uz.exceptions.InvalidPasswordException;
 import dasturlash.uz.exceptions.company_related.CompanyExistsException;
 import dasturlash.uz.exceptions.company_related.CompanyNotFoundException;
 import dasturlash.uz.exceptions.company_related.CompanyStatusException;
@@ -88,7 +88,7 @@ public class CompanyService {
 
         // Verify old password
         if (!passwordEncoder.matches(request.oldPassword(), company.getPassword())) {
-            throw new AppBadRequestException("Invalid old password");
+            throw new InvalidPasswordException("Invalid old password");
         }
 
 

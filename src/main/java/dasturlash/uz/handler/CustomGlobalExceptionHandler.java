@@ -11,6 +11,8 @@ import dasturlash.uz.exceptions.card_related.InvalidCardStatusException;
 import dasturlash.uz.exceptions.client_related.ClientNotFoundException;
 import dasturlash.uz.exceptions.client_related.DuplicatePassportException;
 import dasturlash.uz.exceptions.company_related.*;
+import dasturlash.uz.exceptions.profile_related.ProfileExistsException;
+import dasturlash.uz.exceptions.profile_related.ProfileNotFoundException;
 import dasturlash.uz.exceptions.transfer_related.InvalidTransferStatusException;
 import dasturlash.uz.exceptions.transfer_related.TransferNotAllowedException;
 import dasturlash.uz.exceptions.transfer_related.TransferNotFoundException;
@@ -67,11 +69,12 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     // Not found exceptions - 404
     @ExceptionHandler({
-            DataNotFoundException.class,
             CardNotFoundException.class,
             TransferNotFoundException.class,
             ClientNotFoundException.class,
-            CompanyNotFoundException.class
+            CompanyNotFoundException.class,
+            ProfileNotFoundException.class
+
     })
     public ResponseEntity<?> handleNotFound(RuntimeException e) {
         return ResponseEntity.status(404).body(e.getMessage());
@@ -79,17 +82,17 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     // Bad request exceptions - 400
     @ExceptionHandler({
-            DataExistsException.class,
             CompanyExistsException.class,
             IllegalArgumentException.class,
-            AppBadRequestException.class,
+            InvalidPasswordException.class,
             InvalidCardStatusException.class,
             InsufficientBalanceException.class,
             InvalidTransferStatusException.class,
             DuplicatePassportException.class,
             DuplicateCompanyCodeException.class,
             CompanyStatusException.class,
-            InvalidBankCodeException.class
+            InvalidBankCodeException.class,
+            ProfileExistsException.class
     })
     public ResponseEntity<?> handleBadRequest(RuntimeException e) {
         return ResponseEntity.status(400).body(e.getMessage());
