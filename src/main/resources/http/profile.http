@@ -7,12 +7,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
   "name": "John",
   "surname": "Doe",
   "role": "ROLE_MODERATOR",
-  "username": "johndoe",
+  "username": "johndoe2",
   "password": "password123"
 }
 
 ### Update Profile Basic Info
-PUT http://localhost:9090/api/profile/update/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/profile/update/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -23,7 +23,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
 }
 
 ### Update Profile Password
-PUT http://localhost:9090/api/profile/update-password/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/profile/update-password/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -33,7 +33,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
 }
 
 ### Change Profile Username
-PUT http://localhost:9090/api/profile/change-username/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/profile/change-username/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -45,16 +45,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
 GET http://localhost:9090/api/profile/list?page=0&size=10
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
+### Get Profile by ID
+GET http://localhost:9090/api/profile/a1d89ac8-c7b9-4ecd-b51c-a225eac8e24d
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
+
 ### Change Profile Status
-PUT http://localhost:9090/api/profile/change-status/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/profile/change-status/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 ### Delete Profile
-DELETE http://localhost:9090/api/profile/delete/b3ad5038-6d68-404a-b22e-76684b39f97c
+DELETE http://localhost:9090/api/profile/delete/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 ### Test Invalid Password Update
-PUT http://localhost:9090/api/profile/update-password/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/profile/update-password/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -64,7 +68,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
 }
 
 ### Test Invalid Username Change
-PUT http://localhost:9090/api/profile/change-username/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/profile/change-username/775dba12-fd34-49f8-8dd9-3e36b2e345f5
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 

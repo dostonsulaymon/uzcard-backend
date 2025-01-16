@@ -13,6 +13,7 @@ import dasturlash.uz.exceptions.client_related.DuplicatePassportException;
 import dasturlash.uz.exceptions.company_related.*;
 import dasturlash.uz.exceptions.profile_related.ProfileExistsException;
 import dasturlash.uz.exceptions.profile_related.ProfileNotFoundException;
+import dasturlash.uz.exceptions.profile_related.ProfileStatusException;
 import dasturlash.uz.exceptions.transfer_related.InvalidTransferStatusException;
 import dasturlash.uz.exceptions.transfer_related.TransferNotAllowedException;
 import dasturlash.uz.exceptions.transfer_related.TransferNotFoundException;
@@ -92,7 +93,8 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             DuplicateCompanyCodeException.class,
             CompanyStatusException.class,
             InvalidBankCodeException.class,
-            ProfileExistsException.class
+            ProfileExistsException.class,
+            ProfileStatusException.class
     })
     public ResponseEntity<?> handleBadRequest(RuntimeException e) {
         return ResponseEntity.status(400).body(e.getMessage());

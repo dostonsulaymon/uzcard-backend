@@ -91,6 +91,10 @@ public class CompanyService {
             throw new InvalidPasswordException("Invalid old password");
         }
 
+        // Check if the new password is the same as the old password
+        if (request.oldPassword().equals(request.newPassword())) {
+            throw new InvalidPasswordException("New password cannot be the same as the old password");
+        }
 
         company.setPassword(passwordEncoder.encode(request.newPassword()));
         company.setUpdatedDate(LocalDateTime.now());
@@ -105,8 +109,8 @@ public class CompanyService {
         Company company = getCompanyById(id);
 
         // Check if the new username is already taken
-        if (!request.newUsername().equals(company.getUsername()) && companyRepository.existsByUsername(request.newUsername())) {
-            throw new RuntimeException("Username already exists: " + request.newUsername());
+        if (!request.newUsername().equals(company.getUsername()) && existByUsername(request.newUsername())) {
+            throw new CompanyExistsException("Username already exists: " + request.newUsername());
         }
 
         // Update the username
@@ -121,7 +125,7 @@ public class CompanyService {
 
     public Page<CompanyResponse> getCompanies(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Company> companies = companyRepository.findAll(pageable);
+        Page<Company> companies = companyRepository.findByVisibleTrue(pageable);
 
         return companies.map(this::mapToCompanyResponse);
     }
@@ -151,7 +155,8 @@ public class CompanyService {
                 company.getRole(),
                 company.getCode(),
                 company.getUsername(),
-                company.getCreatedDate()
+                company.getCreatedDate(),
+                company.getUpdatedDate()
         );
     }    private Boolean existByUsername(String username) {
 
@@ -159,7 +164,7 @@ public class CompanyService {
             return false;
         }
 
-        return companyRepository.existsByUsername(username);
+        return companyRepository.existsByUsernameAndVisibleTrue(username);
 
     }
 

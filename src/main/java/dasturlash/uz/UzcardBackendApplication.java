@@ -20,4 +20,6 @@ public class UzcardBackendApplication {
                 env.getProperty("server.port"));
     }
 
+
+
 }

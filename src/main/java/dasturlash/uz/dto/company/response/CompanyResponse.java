@@ -12,6 +12,7 @@ public record CompanyResponse(
         Role role,
         String code,
         String username,
-        LocalDateTime createdDate
+        LocalDateTime createdDate,
+        LocalDateTime updatedDate
 ) {
 }

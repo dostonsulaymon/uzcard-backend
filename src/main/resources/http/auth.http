@@ -1,24 +1,3 @@
-### Register new account
-POST http://localhost:8090/api/auth/registration
-Content-Type: application/json
-Accept-Language: uz
-
-{
-  "name": "Doston",
-  "surname": "Sulaymon",
-  "email": "dostonqosimiy20@gmail.com",
-  "password": "1"
-}
-
-### Registration confirmation
-POST http://localhost:8090/api/auth/registration/confirm
-Content-Type: application/json
-Accept-Language: uz
-
-{
-  "email": "dostonqosimiy20@gmail.com",
-  "code": 191165
-}
 
 ### Login as profile
 POST http://localhost:9090/api/auth/profile/login

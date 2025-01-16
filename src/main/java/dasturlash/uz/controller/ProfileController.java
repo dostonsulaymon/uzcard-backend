@@ -67,4 +67,16 @@ public class ProfileController {
         log.info("Changing status for profile with id: {}", id);
         return ResponseEntity.ok(profileService.changeStatus(id));
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteProfile(@PathVariable String id) {
+        log.info("Deleting profile with id: {}", id);
+        return ResponseEntity.ok(profileService.deleteProfile(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfileResponse> getProfile(@PathVariable String id) {
+        log.info("Fetching profile with id: {}", id);
+        return ResponseEntity.ok(profileService.getProfile(id));
+    }
 }

@@ -6,9 +6,11 @@ import dasturlash.uz.dto.profile.response.ProfileResponse;
 import dasturlash.uz.dto.request.ChangeUsernameRequest;
 import dasturlash.uz.dto.request.PasswordUpdateRequest;
 import dasturlash.uz.entity.Profile;
+import dasturlash.uz.enums.Role;
 import dasturlash.uz.exceptions.InvalidPasswordException;
 import dasturlash.uz.exceptions.profile_related.ProfileExistsException;
 import dasturlash.uz.exceptions.profile_related.ProfileNotFoundException;
+import dasturlash.uz.exceptions.profile_related.ProfileStatusException;
 import dasturlash.uz.repository.ProfileRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,10 @@ public class ProfileService {
 
 
     public String createProfile(ProfileRequest request) {
+
+
+        validateProfile(request);
+
         Profile newProfile = new Profile();
         newProfile.setName(request.name());
         newProfile.setSurname(request.surname());
@@ -57,7 +63,7 @@ public class ProfileService {
 
     public Page<ProfileResponse> getProfiles(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Profile> profiles = profileRepository.findAll(pageable);
+        Page<Profile> profiles = profileRepository.findByVisibleTrue(pageable);
         return profiles.map(this::mapToProfileResponse);
     }
 
@@ -110,11 +116,35 @@ public class ProfileService {
         return "Username changed successfully";
     }
 
+    public String deleteProfile(String id) {
+        Profile profile = getProfileById(id);
+        profile.setVisible(false);
+        profile.setUpdatedDate(LocalDateTime.now());
+        profileRepository.save(profile);
+        return "Profile deleted successfully";
+    }
+
+    public ProfileResponse getProfile(String id) {
+        Profile profile = getProfileById(id);
+        return mapToProfileResponse(profile);
+    }
 
 
     private Profile getProfileById(String id) {
-        return profileRepository.findById(id)
+        return profileRepository.findByIdAndVisibleTrue(id)
                 .orElseThrow(() -> new ProfileNotFoundException("Profile not found with id: " + id));
+    }
+
+    private void validateProfile(ProfileRequest request) {
+        // Check if username already exists
+        if (profileRepository.existsByUsername(request.username())) {
+            throw new ProfileExistsException("Username must be unique. Profile with username " + request.username() + " exists");
+        }
+
+        // Validate that the role is either ROLE_ADMIN or ROLE_MODERATOR
+        if (request.role() != Role.ROLE_ADMIN && request.role() != Role.ROLE_MODERATOR) {
+            throw new ProfileStatusException("Profile can only be created with ROLE_ADMIN or ROLE_MODERATOR");
+        }
     }
 
     private ProfileResponse mapToProfileResponse(Profile profile) {

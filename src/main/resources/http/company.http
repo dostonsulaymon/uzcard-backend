@@ -8,7 +8,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
   "address": "789 Invalid Lane, TX",
   "contact": "+123098765",
   "role": "ROLE_BANK",
-  "username": "hamkorbank",
+  "username": "hamkorbank2",
   "code": "2365",
   "password": "22"
 }
@@ -28,7 +28,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
 }
 
 ### Update company basic info
-PUT http://localhost:9090/api/company/update/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/company/update/cc447da7-fb00-45cd-bdeb-5f3a9a776b45
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -40,13 +40,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
 }
 
 ### Update company password
-PUT http://localhost:9090/api/company/update-password/{{companyId}}
+PUT http://localhost:9090/api/company/update-password/cc447da7-fb00-45cd-bdeb-5f3a9a776b45
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 {
   "oldPassword": "22",
-  "newPassword": "newpass123"
+  "newPassword": "22"
 }
 
 ### Get companies (paginated)
@@ -54,11 +54,11 @@ GET http://localhost:9090/api/company/list?page=0&size=10
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 ### Delete company
-DELETE http://localhost:9090/api/company/delete/{{companyId}}
+DELETE http://localhost:9090/api/company/delete/cc447da7-fb00-45cd-bdeb-5f3a9a776b45
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 ### Test invalid bank code update
-PUT http://localhost:9090/api/company/update/{{companyId}}
+PUT http://localhost:9090/api/company/update/115266e0-2e66-43bc-bb75-9c8239dc2781
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
@@ -66,15 +66,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUe
   "name": "Hamkorbank",
   "address": "789 Invalid Lane, TX",
   "contact": "+123098765",
-  "code": "1111"
+  "code": "111"
 }
 
 ### Test invalid password update
-PUT http://localhost:9090/api/company/update-password/b3ad5038-6d68-404a-b22e-76684b39f97c
+PUT http://localhost:9090/api/company/update-password/115266e0-2e66-43bc-bb75-9c8239dc2781
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJUeXBlIjoiUFJPRklMRSIsImxvZ2luIjoiYWRtaW4iLCJzdWIiOiJhZG1pbiIsImlhdCI6MTczNjY3MTY3OCwiZXhwIjoxNzM3Mjc2NDc4fQ.PdKY3CGksyF0F5iUvjgYD48vQpjbqD2x60QiiDETsbQ
 
 {
   "oldPassword": "22",
-  "newPassword": "33"
+  "newPassword": "22"
 }

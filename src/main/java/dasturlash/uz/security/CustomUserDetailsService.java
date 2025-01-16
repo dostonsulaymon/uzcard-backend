@@ -36,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         // Try to find profile user
-        Optional<Profile> profileOpt = profileRepository.findByUsername(username);
+        Optional<Profile> profileOpt = profileRepository.findByUsernameAndVisibleTrue(username);
         if (profileOpt.isPresent()) {
             Profile profile = profileOpt.get();
             return CustomUserDetails.builder()
