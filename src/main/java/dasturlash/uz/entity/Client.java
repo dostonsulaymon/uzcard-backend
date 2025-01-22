@@ -42,4 +42,7 @@ public class Client {
 
     @Column(nullable = false)
     private Boolean status;
+
+    private Boolean visible;
+
 }

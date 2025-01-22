@@ -48,4 +48,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(length = 50, nullable = false)
     private TransactionStatus status;
+
+    private Boolean visible;
+
 }

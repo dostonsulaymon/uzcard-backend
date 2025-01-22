@@ -22,6 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -127,6 +129,7 @@ public class CompanyService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Company> companies = companyRepository.findByVisibleTrue(pageable);
 
+        List<Integer> list = new ArrayList<>();
         return companies.map(this::mapToCompanyResponse);
     }
 

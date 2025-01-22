@@ -53,4 +53,7 @@ public class Card {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id", insertable = false, updatable = false)
     private Company company;
+
+    private Boolean visible;
+
 }

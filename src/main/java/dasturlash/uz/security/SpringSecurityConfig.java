@@ -76,6 +76,7 @@ public class SpringSecurityConfig {
                     request.requestMatchers("/api/auth/**").permitAll()
                             .requestMatchers("/api/admin/**").hasRole("ADMIN")
                             .requestMatchers("/api/company/**").hasRole("ADMIN")
+                            .requestMatchers("/api/client/**").hasRole("BANK")
                             .anyRequest().authenticated();
                 })
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
