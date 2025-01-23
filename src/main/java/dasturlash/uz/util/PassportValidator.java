@@ -37,6 +37,7 @@ public class PassportValidator {
             throw new InvalidPassportNumberFormatException("Invalid seria");
         }
 
+        System.out.println(REGION_SERIAS.get(seria));
 
         existsByPassSeriaAndNumber(seria, number);
 
